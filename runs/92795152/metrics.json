@@ -1,0 +1,17 @@
+{
+  "model_family": "google/gemma-2b-it",
+  "k_bits": 4,
+  "v_bits": 4,
+  "dense_bytes": 4718592,
+  "compressed_bytes": 2727936,
+  "ratio": 0.5781,
+  "tok_per_sec": 17.76,
+  "latency_ms": 56.31,
+  "avg_kl_per_token": 12.125,
+  "token_match_rate": 0.3125,
+  "kl_bound_ok": false,
+  "match_bound_ok": false,
+  "passed": false,
+  "dry_run": false,
+  "run_id": "92795152"
+}
