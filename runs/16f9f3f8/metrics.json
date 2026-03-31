@@ -1,0 +1,17 @@
+{
+  "model_family": "TinyLlama/TinyLlama-1.1B-Chat-v1.0",
+  "k_bits": 3,
+  "v_bits": 4,
+  "dense_bytes": 5767168,
+  "compressed_bytes": 0,
+  "ratio": 0.0,
+  "tok_per_sec": 25.82,
+  "latency_ms": 38.73,
+  "avg_kl_per_token": 7.875,
+  "token_match_rate": 0.375,
+  "kl_bound_ok": false,
+  "match_bound_ok": false,
+  "passed": false,
+  "dry_run": false,
+  "run_id": "16f9f3f8"
+}

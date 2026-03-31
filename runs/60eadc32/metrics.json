@@ -1,0 +1,15 @@
+{
+  "run_id": "60eadc32",
+  "model": "TinyLlama/TinyLlama-1.1B-Chat-v1.0",
+  "config_fingerprint": null,
+  "dense_bytes": 5767168,
+  "compressed_bytes": 0,
+  "ratio": 0.0,
+  "tok_per_sec": 25.82,
+  "avg_latency_ms": 38.733,
+  "peak_latency_ms": 38.733,
+  "total_tokens": 1,
+  "total_steps": 1,
+  "mlx_version": "0.31.1",
+  "elapsed_s": 5.731
+}
