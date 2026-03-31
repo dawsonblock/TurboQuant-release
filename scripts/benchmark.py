@@ -142,6 +142,7 @@ def _run_benchmark(
         from mlx_lm import load
 
         model, tokenizer = load(model_family)
+        real_model_family = getattr(model, "model_type", model_family)
     except Exception as exc:
         logger.warning("Could not load model '%s': %s — dry-run", model_family, exc)
         return _synthetic_report(model_family, n_tokens, k_bits, v_bits)
@@ -171,13 +172,14 @@ def _run_benchmark(
         dense_cache,
         k_start=0,
         config=config,
-        model_family=model_family,
+        model_family=real_model_family,
     )
     upgraded = sum(1 for ev in events if ev.upgraded)
     logger.info("Upgraded %d / %d layers", upgraded, len(events))
 
     compressed_bytes = sum(
-        getattr(c, "byte_size", lambda: 0)()
+        (c.nbytes() if callable(getattr(c, "nbytes", None)) 
+         else getattr(c, "nbytes", 0))
         for c in dense_cache
     )
     tracker.set_compressed_bytes(compressed_bytes)
@@ -195,14 +197,14 @@ def _run_benchmark(
     avg_step_ms = 1000 * (sum(steps) / len(steps)) if steps else 0.0
     tok_per_sec = 1000.0 / avg_step_ms if avg_step_ms > 0 else 0.0
 
-    tracker.record_step(step=0, latency_ms=avg_step_ms)
+    tracker.record_step(latency_ms=avg_step_ms)
 
     # ── Accuracy comparison ────────────────────────────────────────────────────
     comp = AccuracyComparison(
         model=model,
         tokenizer=tokenizer,
         config=config,
-        model_family=model_family,
+        model_family=real_model_family,
     )
     report = comp.run(prompt=prompt, max_tokens=min(n_tokens, 32))
 
