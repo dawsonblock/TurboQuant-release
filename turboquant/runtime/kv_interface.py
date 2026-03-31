@@ -34,11 +34,11 @@ from dataclasses import dataclass
 
 import mlx.core as mx
 import numpy as np
+
 from turboquant.config import TurboQuantConfig
 from turboquant.core.pipeline import TurboQuantPipeline
-from turboquant.runtime.layout import ensure_layout
-
 from turboquant.errors import TurboQuantKernelError, TurboQuantShapeError
+from turboquant.runtime.layout import ensure_layout
 
 logger = logging.getLogger("turboquant.runtime.kv_cache")
 

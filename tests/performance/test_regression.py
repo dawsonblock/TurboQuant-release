@@ -1,7 +1,7 @@
 import mlx.core as mx
-from turboquant.config import TurboQuantConfig
 
 from tests.helpers.mlx_env import MLX_SKIP_MARKER
+from turboquant.config import TurboQuantConfig
 from turboquant.runtime.kv_interface import KVCompressor
 
 pytestmark = MLX_SKIP_MARKER

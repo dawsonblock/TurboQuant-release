@@ -1,0 +1,18 @@
+Modified files in this blocker-fix patch set:
+
+PATCH_DIFF_SUMMARY.txt
+PATCH_NOTES_BLOCKER_FIXES.md
+README.md
+docs/architecture.md
+docs/cache-format.md
+docs/integration.md
+mlx_lm/cache_upgrade.py
+mlx_lm/generate.py
+mlx_lm/models/cache.py
+tests/integration/test_turboquant_generate.py
+tests/unit/test_kv_interface.py
+tests/unit/test_rotation.py
+turboquant/core/quantizer.py
+turboquant/core/rotation.py
+turboquant/runtime/kv_interface.py
+turboquant/runtime/state.py

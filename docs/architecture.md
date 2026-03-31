@@ -205,16 +205,9 @@ The V component is analogous.  At 3-bit K + 4-bit V with group=64 and float16 sc
 
 This repository now includes packaging metadata and public static CI, but that CI does not certify MLX runtime behavior. Real runtime validation still requires an Apple Silicon Mac with `mlx` installed. Use `scripts/validate_apple_silicon.sh` for the supported local validation path.
 
-## 8. Custom kernels
+## 8. Experimental & Native Acceleration
+TurboQuant is a research-grade KV-cache compression package for Apple-Silicon MLX inference. The supported runtime path is local Apple-Silicon validation for selected Llama-family and Gemma-family models. Custom Metal kernels are experimental and not part of the default supported runtime.
 
-Handwritten Metal shaders and fused GPU kernels are **not part of the
-supported runtime path**.  The production path uses MLX-backed vectorised
-Python ops throughout.
-
-Experimental shader work lives in `turboquant/experimental/` and is not
-referenced by any production codepath.  It must not be cited as a performance
-claim or release feature until it has explicit runtime-certification coverage.
-
-See [docs/supported-surface.md](supported-surface.md) for the authoritative
-list of what is and is not claimed.
+- **MLX JIT Core Compilation (Supported Default)**: Fallback stream topologies (`dequantize_groups`, `decode_k_fallback`) aggressively compile inline Python iterators directly into static C++ execution trees (`mx.compile(fn, shapeless=False)`). Configuration constants (e.g., bit-widths, padding sizes) are aggressively injected at the compilation cache layer `_DEQUANT_CACHE[key]` effectively stripping dispatch latency.
+- **Metal Shader Injection (Experimental)**: Raw logic is ported directly to Apple Silicon via explicit `mx.fast.metal_kernel` C++ templates (`decode_k.metal`). Heavy inner accumulation loops (`resid_idx` matches) are natively untrolled utilizing statically mapped compilation signatures `[("BITS", config.k_bits)]`.
 

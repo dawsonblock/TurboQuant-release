@@ -1,0 +1,12 @@
+RSYNC_OPTS="-av --exclude .git --exclude __pycache__ --exclude .ruff_cache --exclude .pytest_cache --exclude .DS_Store --exclude README.md"
+MASTER="/Users/dawsonblock/Downloads/Turbo-master"
+RC="/Users/dawsonblock/Downloads/TurboQuant-release-candidate-main 2"
+
+rsync $RSYNC_OPTS "$MASTER/turboquant/" "$RC/turboquant/"
+rsync $RSYNC_OPTS "$MASTER/integrations/" "$RC/integrations/"
+rsync $RSYNC_OPTS "$MASTER/tests/" "$RC/tests/"
+rsync $RSYNC_OPTS "$MASTER/scripts/" "$RC/scripts/"
+rsync $RSYNC_OPTS "$MASTER/tools/" "$RC/tools/"
+rsync $RSYNC_OPTS "$MASTER/docs/" "$RC/docs/"
+rsync $RSYNC_OPTS "$MASTER/mlx_lm/models/cache.py" "$RC/mlx_lm/models/cache.py"
+cp "$MASTER/noxfile.py" "$RC/noxfile.py"

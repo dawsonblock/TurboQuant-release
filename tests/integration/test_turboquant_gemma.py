@@ -75,10 +75,7 @@ def _make_kv(seq_len: int):
     return k, v
 
 
-# ─── 1. update_and_fetch – dequant mode ──────────────────────────────────────
-
-
-# ─── 2. update_and_fetch – view mode ─────────────────────────────────────────
+# ─── 1. update_and_fetch – view mode ─────────────────────────────────────────
 
 
 def test_update_and_fetch_view_mode():
@@ -96,7 +93,7 @@ def test_update_and_fetch_view_mode():
     assert tq.offset == PREFILL_LEN
 
 
-# ─── 3. state roundtrip ───────────────────────────────────────────────────────
+# ─── 2. state roundtrip ───────────────────────────────────────────────────────
 
 
 def test_state_roundtrip():
@@ -117,7 +114,7 @@ def test_state_roundtrip():
     ), f"block_tokens mismatch: {tq2.config.block_tokens} vs {tq.config.block_tokens}"
 
 
-# ─── 4. block iterator covers all tokens ─────────────────────────────────────
+# ─── 3. block iterator covers all tokens ─────────────────────────────────────
 
 
 def test_block_iterator_covers_all_tokens():
@@ -142,7 +139,7 @@ def test_block_iterator_covers_all_tokens():
     ), "Block iterator did not cover all token positions exactly once"
 
 
-# ─── 5. Gemma attention with standard KVCache ────────────────────────────────
+# ─── 4. Gemma attention with standard KVCache ────────────────────────────────
 
 
 def test_gemma_attention_with_kvcache():
@@ -163,7 +160,7 @@ def test_gemma_attention_with_kvcache():
     assert cache.offset == seq_len
 
 
-# ─── 6. Gemma attention with TurboQuantKCache (view mode) ────────────────────
+# ─── 5. Gemma attention with TurboQuantKCache (view mode) ────────────────────
 
 
 def test_gemma_attention_with_turboquant():
@@ -189,7 +186,7 @@ def test_gemma_attention_with_turboquant():
     assert tq.offset == PREFILL_LEN + 1
 
 
-# ─── 7. Incremental decode accumulates offset ────────────────────────────────
+# ─── 6. Incremental decode accumulates offset ────────────────────────────────
 
 
 def test_incremental_decode():
@@ -207,7 +204,7 @@ def test_incremental_decode():
         ), f"Offset should be {PREFILL_LEN + step} after {step} decode steps"
 
 
-# ─── 8. Storage dominated by 3-bit codes ─────────────────────────────────────
+# ─── 7. Storage dominated by 3-bit codes ─────────────────────────────────────
 
 
 def test_storage_breakdown_keys():

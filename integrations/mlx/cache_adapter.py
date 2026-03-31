@@ -2,9 +2,8 @@ import warnings
 from dataclasses import dataclass
 from typing import Optional
 
-from turboquant.config import TurboQuantConfig as _ProdTurboQuantConfig
-
 from mlx_lm.models.cache import _BaseCache, create_attention_mask
+from turboquant.config import TurboQuantConfig as _ProdTurboQuantConfig
 from turboquant.runtime.kv_interface import (
     KVCompressor as _KVCompressor,
 )

@@ -61,10 +61,6 @@ _MODIFIED_HEADER_RE = re.compile(
     r"^###\s+`(mlx_lm/[^`]+)`",
     re.MULTILINE,
 )
-_UNCHANGED_SECTION_RE = re.compile(
-    r"### Files Unchanged from Upstream(.*?)(?=^##|\Z)",
-    re.DOTALL | re.MULTILINE,
-)
 
 
 def parse_documented_modifications(doc: Path) -> set[str]:
@@ -170,12 +166,16 @@ def _print_human(result: dict) -> None:
             print(f"  MISSING  {p}")
 
     if result["missing_markers"]:
-        print("\nMISSING MARKERS (documented as modified, no TQ code found):")
+        print(
+            "\nMISSING MARKERS (documented as modified, no TQ code found):"
+        )
         for p in result["missing_markers"]:
             print(f"  NO-TQ    {p}")
 
     if result["undocumented_modifications"]:
-        print("\nUNDOCUMENTED MODIFICATIONS (TQ markers present, not listed):")
+        print(
+            "\nUNDOCUMENTED MODIFICATIONS (TQ markers present, not listed):"
+        )
         for p in result["undocumented_modifications"]:
             print(f"  UNLISTED {p}")
 
@@ -185,12 +185,16 @@ def _print_human(result: dict) -> None:
 
 def main() -> int:
     parser = argparse.ArgumentParser(
-        description="Audit vendored mlx_lm surface against VENDORED_MLX_LM.md"
+        description=(
+            "Audit vendored mlx_lm surface against VENDORED_MLX_LM.md"
+        )
     )
     parser.add_argument(
         "--json",
         action="store_true",
-        help="Emit machine-readable JSON instead of human-readable output.",
+        help=(
+            "Emit machine-readable JSON instead of human-readable output."
+        ),
     )
     args = parser.parse_args()
 
