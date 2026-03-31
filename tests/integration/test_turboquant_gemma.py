@@ -14,10 +14,10 @@ Coverage (from Quant planning doc):
 import math
 
 import mlx.core as mx
+from mlx_lm.models.gemma import Attention, ModelArgs
 
 from integrations.mlx.cache_adapter import TurboQuantConfig, TurboQuantKCache
 from mlx_lm.models.cache import KVCache
-from mlx_lm.models.gemma import Attention, ModelArgs
 from tests.helpers.mlx_env import MLX_SKIP_MARKER
 
 pytestmark = MLX_SKIP_MARKER

@@ -187,7 +187,6 @@ class AccuracyComparison:
         non-Apple platforms (for documentation / type checking).
         """
         import mlx.core as mx
-
         from turboquant.eval.generation_drift import logit_kl_divergence
 
         ids = self._tokenizer.encode(prompt)

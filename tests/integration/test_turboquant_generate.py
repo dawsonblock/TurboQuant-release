@@ -12,9 +12,9 @@ Coverage (from test-plan doc):
 
 import mlx.core as mx
 import pytest
+from mlx_lm.generate import maybe_turboquant_k_cache
 
 from integrations.mlx.cache_adapter import TurboQuantKCache
-from mlx_lm.generate import maybe_turboquant_k_cache
 from mlx_lm.models.cache import KVCache
 from tests.helpers.mlx_env import MLX_SKIP_MARKER
 

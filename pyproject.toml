@@ -1,0 +1,111 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "turboquant"
+version = "0.2.2"
+description = "Research-grade KV-cache compression for Apple Silicon MLX LLMs"
+readme = "README.md"
+requires-python = ">=3.9"
+license = "MIT"
+authors = [{name = "Dawson Block"}]
+keywords = ["kv-cache", "compression", "mlx", "llm", "apple-silicon"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Developers",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Operating System :: MacOS",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+  "numpy>=1.26",
+  "huggingface_hub>=0.24",
+  "transformers>=4.40",
+  "tqdm>=4.66",
+  "pyyaml>=6.0",
+]
+
+[project.optional-dependencies]
+apple = [
+  "mlx>=0.30.0,<1.0.0; platform_system == 'Darwin' and platform_machine == 'arm64'",
+]
+test = [
+  "pytest>=8",
+  "pytest-cov>=5.0.0",
+]
+dev = [
+  "build>=1.2.1",
+  "pytest>=8",
+  "pytest-cov>=5.0.0",
+  "twine>=5",
+  "nox>=2024.3.2",
+  "nox-uv>=1.15.0",
+  "mypy>=1.10.0",
+  "ruff>=0.3.5",
+]
+
+[project.urls]
+Repository = "https://github.com/dawsonblock/TurboQuant"
+Issues = "https://github.com/dawsonblock/TurboQuant/issues"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+include = ["turboquant*", "mlx_lm*"]
+exclude = ["tests*", "benchmarks*"]
+
+[tool.setuptools.package-data]
+mlx_lm = ["py.typed"]
+
+[tool.pytest.ini_options]
+minversion = "8.0"
+addopts = "-ra"
+testpaths = ["tests"]
+
+[tool.mypy]
+strict = false
+
+warn_return_any = true
+warn_unused_configs = true
+ignore_missing_imports = true
+exclude = [
+    "^benchmarks/",
+    "^scripts/",
+    "^tests/"
+]
+
+[tool.ruff]
+line-length = 88
+target-version = "py39"
+exclude = [
+    ".git",
+    ".mypy_cache",
+    ".nox",
+    ".pytest_cache",
+    ".ruff_cache",
+    ".venv",
+    "build",
+    "dist",
+    "mlx_lm",
+]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W", "UP"] # Default Pyflakes/pycodestyle, Isort, pyupgrade
+ignore = []
+
+[tool.ruff.lint.per-file-ignores]
+"*" = ["E501"]
+"benchmarks/*" = ["E402", "E701"]
+
+[[tool.mypy.overrides]]
+module = "mlx_lm.*"
+
+ignore_errors = true
+
+

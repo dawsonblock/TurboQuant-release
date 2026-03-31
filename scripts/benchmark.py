@@ -121,6 +121,7 @@ def _run_benchmark(
         return _synthetic_report(model_family, n_tokens, k_bits, v_bits)
 
     from turboquant.config import TurboQuantConfig
+
     from turboquant.eval.compare import AccuracyComparison
     from turboquant.metrics.tracker import MetricsTracker
 
