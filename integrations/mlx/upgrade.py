@@ -26,7 +26,11 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
+from turboquant.runtime.events import EventLog
 from turboquant.runtime.support import assert_supported_model_family
+
+# Module-level event log — flushed to runs/<run_id>/events.jsonl automatically.
+_event_log: EventLog = EventLog()
 
 # ── Event ─────────────────────────────────────────────────────────────────────
 
@@ -48,6 +52,15 @@ class CacheUpgradeEvent:
         ``type(cache).__name__`` after the upgrade.
     offset_at_upgrade:
         ``cache.offset`` at the moment the decision was made.
+    old_bytes:
+        Approximate byte footprint of the dense cache before upgrade.
+        Set to 0 when ``upgraded=False``.
+    new_bytes:
+        Approximate byte footprint of the TurboQuant cache after upgrade.
+        Set to 0 when ``upgraded=False``.
+    ratio:
+        ``new_bytes / old_bytes`` — compression ratio (<1.0 is smaller).
+        0.0 when ``upgraded=False`` or ``old_bytes=0``.
     """
 
     upgraded: bool
@@ -55,6 +68,9 @@ class CacheUpgradeEvent:
     old_type: str
     new_type: str
     offset_at_upgrade: int
+    old_bytes: int = 0
+    new_bytes: int = 0
+    ratio: float = 0.0
 
 
 # ── Upgrade policy ────────────────────────────────────────────────────────────
@@ -86,7 +102,7 @@ def upgrade_cache_list(
         ``return_mode`` kwarg is not surfaced here.
     model_family:
         Model architecture family (e.g. ``"llama"`` or ``"gemma"``).
-        Must be in :data:`SUPPORTED_FAMILIES` or
+        Must be in the supported allowlist or
         :class:`~turboquant.errors.UnsupportedModelError` is raised before
         any cache is mutated.  Pass ``None`` only from exploratory code
         paths that intentionally bypass the allowlist check.
@@ -174,14 +190,32 @@ def upgrade_cache_list(
             )
 
         prompt_cache[i] = tq
-        events.append(
-            CacheUpgradeEvent(
-                upgraded=True,
-                layer_index=i,
-                old_type=old_type,
-                new_type=type(prompt_cache[i]).__name__,
-                offset_at_upgrade=cur_offset,
-            )
+
+        # Compute byte footprints for the event record.
+        old_b = getattr(c, "byte_size", lambda: 0)()
+        new_b = tq.byte_size() if hasattr(tq, "byte_size") else 0
+        ev_ratio = (new_b / old_b) if old_b > 0 else 0.0
+
+        ev = CacheUpgradeEvent(
+            upgraded=True,
+            layer_index=i,
+            old_type=old_type,
+            new_type=type(prompt_cache[i]).__name__,
+            offset_at_upgrade=cur_offset,
+            old_bytes=old_b,
+            new_bytes=new_b,
+            ratio=round(ev_ratio, 4),
+        )
+        events.append(ev)
+        _event_log.record(
+            "cache_upgrade",
+            layer=i,
+            old_type=old_type,
+            new_type=ev.new_type,
+            offset=cur_offset,
+            old_bytes=old_b,
+            new_bytes=new_b,
+            ratio=ev.ratio,
         )
 
     return events
