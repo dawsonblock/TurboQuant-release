@@ -156,7 +156,6 @@ def _run_benchmark(
     t0 = time.perf_counter()
     model(input_ids, cache=dense_cache)
     mx.eval(*[c.keys for c in dense_cache if hasattr(c, "keys") and c.keys is not None])
-    dense_elapsed = time.perf_counter() - t0
 
     dense_bytes = sum(
         c.keys.nbytes + c.values.nbytes

@@ -56,7 +56,7 @@ def test_no_mlx_import_in_unit_static() -> None:
         if re.search(r"\bimport\s+mlx\b|from\s+mlx\b", text):
             violations.append(py.name)
     assert not violations, (
-        f"These files in tests/unit_static/ import mlx (forbidden):\n"
+        "These files in tests/unit_static/ import mlx (forbidden):\n"
         + "\n".join(f"  {v}" for v in violations)
     )
 
