@@ -48,7 +48,7 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 
 
 def test_no_mlx_import_in_unit_static() -> None:
-    """No file in tests/unit_static/ may import mlx."""
+    """No file in tests/unit_static/ may contain an mlx import."""
     this_dir = Path(__file__).parent
     violations: list[str] = []
     for py in sorted(this_dir.glob("*.py")):
@@ -56,7 +56,7 @@ def test_no_mlx_import_in_unit_static() -> None:
         if re.search(r"\bimport\s+mlx\b|from\s+mlx\b", text):
             violations.append(py.name)
     assert not violations, (
-        "These files in tests/unit_static/ import mlx (forbidden):\n"
+        "These files in tests/unit_static/ contain an mlx import (forbidden):\n"
         + "\n".join(f"  {v}" for v in violations)
     )
 

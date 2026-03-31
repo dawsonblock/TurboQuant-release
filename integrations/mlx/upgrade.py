@@ -26,7 +26,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from turboquant.runtime.events import EventLog
+from turboquant.runtime.events import EventLog, CacheUpgradeEvent as RTCacheUpgradeEvent
 from turboquant.runtime.support import assert_supported_model_family
 
 # Module-level event log — flushed to runs/<run_id>/events.jsonl automatically.
@@ -208,14 +208,15 @@ def upgrade_cache_list(
         )
         events.append(ev)
         _event_log.record(
-            "cache_upgrade",
-            layer=i,
-            old_type=old_type,
-            new_type=ev.new_type,
-            offset=cur_offset,
-            old_bytes=old_b,
-            new_bytes=new_b,
-            ratio=ev.ratio,
+            RTCacheUpgradeEvent(
+                layer_index=ev.layer_index,
+                token_index=ev.offset_at_upgrade,
+                old_type=ev.old_type,
+                new_type=ev.new_type,
+                old_bytes=ev.old_bytes,
+                new_bytes=ev.new_bytes,
+                ratio=ev.ratio,
+            )
         )
 
     return events
