@@ -1,0 +1,3 @@
+Memory Benchmark (estimated):
+Native KV Cache: float16, 1 token -> 128 * 32 * 2 bytes
+TurboQuant Cache: int8/int4 compressed bytes footprint

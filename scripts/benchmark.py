@@ -132,7 +132,7 @@ def _run_benchmark(
         v_enabled=True,
     )
 
-    tracker = MetricsTracker(model_family=model_family)
+    tracker = MetricsTracker(model=model_family)
 
     # ── Estimate dense bytes ───────────────────────────────────────────────────
     #
@@ -171,7 +171,7 @@ def _run_benchmark(
         dense_cache,
         k_start=0,
         config=config,
-        model_family=model_family,
+        model=model_family,
     )
     upgraded = sum(1 for ev in events if ev.upgraded)
     logger.info("Upgraded %d / %d layers", upgraded, len(events))

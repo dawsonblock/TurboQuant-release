@@ -1,0 +1,17 @@
+{
+  "model_family": "llama",
+  "k_bits": 3,
+  "v_bits": 4,
+  "dense_bytes": 33554432,
+  "compressed_bytes": 3460300,
+  "ratio": 0.1031,
+  "tok_per_sec": 0.0,
+  "latency_ms": 0.0,
+  "avg_kl_per_token": 0.0,
+  "token_match_rate": 1.0,
+  "kl_bound_ok": true,
+  "match_bound_ok": true,
+  "passed": true,
+  "dry_run": true,
+  "run_id": "4c2b6189"
+}
