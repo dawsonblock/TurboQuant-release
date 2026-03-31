@@ -171,7 +171,7 @@ def _run_benchmark(
         dense_cache,
         k_start=0,
         config=config,
-        model=model_family,
+        model_family=model_family,
     )
     upgraded = sum(1 for ev in events if ev.upgraded)
     logger.info("Upgraded %d / %d layers", upgraded, len(events))
